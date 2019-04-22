@@ -107,7 +107,7 @@ class Signal:
         for ref in self._slots:
             if asyncio.iscoroutinefunction(ref.getobject()):
                 logger.debug('Scheduling coroutine {}'.format(ref))
-                asyncio.async(ref(*args, **kwargs), loop=self.loop)
+                asyncio.ensure_future(ref(*args, **kwargs), loop=self.loop)
             else:
                 if self.force_async or ref.force_async:
                     logger.debug('Calling slot {} asynchronously (in executor {})'.format(
